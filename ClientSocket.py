@@ -9,7 +9,7 @@ def detector():
     for device in devices_connected:
         if "C:\\" not in device.mountpoint and "fs" not in device.fstype and "removable" in device.opts:
             require_devices.append(device)
-    time.sleep(10)
+    time.sleep(30)
     return require_devices
 
 
