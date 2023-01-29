@@ -16,9 +16,10 @@ def handle_client(conn, address):
 def server_program():
     host = socket.gethostname()
     port = 5004
-    print(host)
+    print("Server Name: " + host + " running on port: "+str(port))
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server_socket.bind(("192.168.0.108", port))
+    your_local_ip_address = "192.168.0.112"
+    server_socket.bind((your_local_ip_address, port))
     number_of_connections = 2
     server_socket.listen(number_of_connections)
 

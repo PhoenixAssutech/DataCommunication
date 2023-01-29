@@ -25,12 +25,13 @@ def client_program():
     port = 5004  # socket server port number
 
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # instantiate
-    client_socket.connect(('192.168.0.108', port))  # connect to the server
+    server_ip_address = "192.168.0.112"
+    client_socket.connect((server_ip_address, port))  # connect to the server
     # take input
     message = ""
-    # data = detect_device()
     while message.lower().strip() != 'bye':
         received_devices = detect_device()
+
         for device in received_devices:
             message = f'{device}'
             client_socket.send(message.encode())  # send message
