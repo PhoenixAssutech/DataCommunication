@@ -16,9 +16,9 @@ def handle_client(conn, address):
 def server_program():
     host = socket.gethostname()
     port = 5004
-
+    print(host)
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server_socket.bind((host, port))
+    server_socket.bind(("192.168.0.108", port))
     server_socket.listen(2)
 
     while True:

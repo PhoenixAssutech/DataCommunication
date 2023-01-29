@@ -7,9 +7,9 @@ def detector():
     require_devices = []
     devices_connected = psutil.disk_partitions(True)
     for device in devices_connected:
-        if "C:\\" not in device.mountpoint:
+        if "C:\\" not in device.mountpoint and "fs" not in device.fstype and "removable" in device.opts:
             require_devices.append(device)
-    time.sleep(30)
+    time.sleep(10)
     return require_devices
 
 
