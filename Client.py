@@ -1,6 +1,7 @@
 import socket
 import threading
 
+
 def handle_client(conn, address):
     while True:
         data = conn.recv(1024).decode()
@@ -10,6 +11,7 @@ def handle_client(conn, address):
         response = f'User {str(address)}, you have a removable device connected to your system. Be mindful of viruses.'
         conn.send(response.encode())
     conn.close()
+
 
 def server_program():
     host = socket.gethostname()
@@ -24,5 +26,6 @@ def server_program():
         print("Accepted connection from {}".format(address))
         client_thread = threading.Thread(target=handle_client, args=(conn, address))
         client_thread.start()
+
 
 server_program()
