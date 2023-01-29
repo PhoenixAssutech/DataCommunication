@@ -19,7 +19,8 @@ def server_program():
     print(host)
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.bind(("192.168.0.108", port))
-    server_socket.listen(2)
+    number_of_connections = 2
+    server_socket.listen(number_of_connections)
 
     while True:
         conn, address = server_socket.accept()
