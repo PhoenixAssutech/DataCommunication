@@ -22,10 +22,10 @@ def detect_device():
 
 def client_program():
     host = socket.gethostname()  # as both code is running on same pc
-    port = 5000  # socket server port number
+    port = 5002  # socket server port number
 
-    client_socket = socket.socket()  # instantiate
-    client_socket.connect((host, port))  # connect to the server
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # instantiate
+    client_socket.connect(('192.168.0.108', port))  # connect to the server
     # take input
     message = ""
     # data = detect_device()
