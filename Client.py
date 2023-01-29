@@ -1,31 +1,47 @@
 import socket
-import threading
+import time
+import psutil
 
 
-def handle_client(conn, address):
+def detector():
+    require_devices = []
+    devices_connected = psutil.disk_partitions(True)
+    for device in devices_connected:
+        if "C:\\" not in device.mountpoint and "fs" not in device.fstype and "removable" in device.opts:
+            require_devices.append(device)
+    time.sleep(30)
+    return require_devices
+
+
+def detect_device():
     while True:
-        data = conn.recv(1024).decode()
-        if not data:
-            break
-        print("from connected user: " + str(data))
-        response = f'User {str(address)}, you have a removable device connected to your system. Be mindful of viruses.'
-        conn.send(response.encode())
-    conn.close()
+        devices = detector()
+        if len(devices) > 0:
+            return devices
 
 
-def server_program():
-    host = socket.gethostname()
-    port = 5004
+def client_program():
+    host = socket.gethostname()  # as both code is running on same pc
+    port = 5004  # socket server port number
 
-    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server_socket.bind(('192.168.0.108', port))
-    server_socket.listen(2)
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # instantiate
+    client_socket.connect(('192.168.0.108', port))  # connect to the server
+    # take input
+    message = ""
+    # data = detect_device()
+    while message.lower().strip() != 'bye':
+        received_devices = detect_device()
+        for device in received_devices:
+            message = f'{device}'
+            client_socket.send(message.encode())  # send message
+            # client_socket.send(data.encode())  # send
+            data = client_socket.recv(1024).decode()  # receive response
 
-    while True:
-        conn, address = server_socket.accept()
-        print("Accepted connection from {}".format(address))
-        client_thread = threading.Thread(target=handle_client, args=(conn, address))
-        client_thread.start()
+            print('Alert  from server: ' + data)  # show in terminal
+        #
+        # message = input(" -> ")  # again take input
+
+    client_socket.close()  # close the connection
 
 
-server_program()
+client_program()
