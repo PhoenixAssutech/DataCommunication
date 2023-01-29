@@ -4,7 +4,7 @@ import socket
 def server_program():
     # get the hostname
     host = socket.gethostname()
-    port = 5002  # initiate port no above 1024
+    port = 5004  # initiate port no above 1024
 
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # get instance
     # look closely. The bind() function takes tuple as argument
